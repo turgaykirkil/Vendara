@@ -7,34 +7,31 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import Colors from "../../constants/Colors";
 
 const { width } = Dimensions.get("window");
 
-interface LoginProps {
+interface ForgotPasswordProps {
   onSwitch: (screen: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onSwitch }) => {
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSwitch }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
 
-  const handleLogin = async () => {
+  const handlePasswordReset = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/home");
+      await sendPasswordResetEmail(auth, email);
+      onSwitch("login");
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Password reset error", error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Forgot Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -43,19 +40,12 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Register" onPress={() => onSwitch("register")} />
-      <Button
-        title="Forgot Password"
-        onPress={() => onSwitch("forgotPassword")}
-      />
+      <View style={styles.buttonContainer}>
+        <Button title="Reset Password" onPress={handlePasswordReset} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Back to Login" onPress={() => onSwitch("login")} />
+      </View>
     </View>
   );
 };
@@ -93,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default ForgotPassword;

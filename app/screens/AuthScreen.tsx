@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import Login from "./LoginScreen";
 import Register from "./RegisterScreen";
-import ForgetPassword from "./ForgetPasswordScreen";
+import ForgotPassword from "./ForgotPasswordScreen";
 import Colors from "../../constants/Colors";
 
 const AuthScreen: React.FC = () => {
@@ -14,8 +14,8 @@ const AuthScreen: React.FC = () => {
         return <Login onSwitch={setScreen} />;
       case "register":
         return <Register onSwitch={setScreen} />;
-      case "forgetPassword":
-        return <ForgetPassword onSwitch={setScreen} />;
+      case "forgotPassword":
+        return <ForgotPassword onSwitch={setScreen} />;
       default:
         return <Login onSwitch={setScreen} />;
     }
