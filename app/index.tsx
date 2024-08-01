@@ -1,15 +1,18 @@
-import { Text, View } from "react-native";
+import React from "react";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
 
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
-}
+const IndexScreen: React.FC = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/screens/SplashScreen");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [router]);
+
+  return null; // Boş ekran veya geçiş sırasında gösterilecek bir şey.
+};
+
+export default IndexScreen;
